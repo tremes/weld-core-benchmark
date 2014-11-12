@@ -2,4 +2,7 @@
     <interceptors>
         <class>org.jboss.weld.benchmark.core.DummyInterceptor</class>
     </interceptors>
+    <decorators>
+        <class>org.jboss.weld.benchmark.core.DummyDecorator</class>
+    </decorators>
 </beans>
