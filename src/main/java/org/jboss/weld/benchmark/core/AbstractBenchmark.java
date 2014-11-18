@@ -59,8 +59,8 @@ public abstract class AbstractBenchmark<T extends BeanUnderTest> {
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
-    @Warmup(batchSize = BATCH_SIZE, iterations = 5)
-    @Measurement(batchSize = BATCH_SIZE, iterations = 5)
+    @Warmup(batchSize = BATCH_SIZE, iterations = 10)
+    @Measurement(batchSize = BATCH_SIZE, iterations = 10)
     public boolean run() {
         return instance.getResult();
     }
