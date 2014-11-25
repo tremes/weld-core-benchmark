@@ -23,10 +23,18 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 public class Main {
 
+    private static final int FORKS = 5;
+    private static final int ITERATIONS = 5;
+    private static final int BATCH_SIZE = 1 << 15;
+
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder().include("org.jboss.weld.benchmark.core")
-                .forks(0)
-                .threads(Runtime.getRuntime().availableProcessors())
+                .forks(FORKS)
+                .threads(1)
+                .warmupBatchSize(BATCH_SIZE)
+                .warmupIterations(ITERATIONS)
+                .measurementBatchSize(BATCH_SIZE)
+                .measurementIterations(ITERATIONS)
                 .build();
         new Runner(opt).run();
     }

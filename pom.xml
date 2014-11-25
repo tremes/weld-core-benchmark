@@ -56,14 +56,20 @@
                         <id>run</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>java</goal>
+                            <goal>exec</goal>
                         </goals>
+                        <configuration>
+                            <classpathScope>compile</classpathScope>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>org.jboss.weld.benchmark.core.Main</argument>
+                                <argument>.*</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <classpathScope>compile</classpathScope>
-                    <mainClass>org.jboss.weld.benchmark.core.Main</mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -82,7 +88,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld.se</groupId>
-                    <artifactId>weld-se</artifactId>
+                    <artifactId>weld-se-core</artifactId>
                     <version>${weld.version}</version>
                 </dependency>
             </dependencies>
