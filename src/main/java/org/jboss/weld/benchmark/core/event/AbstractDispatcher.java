@@ -16,20 +16,23 @@
  */
 package org.jboss.weld.benchmark.core.event;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
+import javax.enterprise.event.Event;
 
+import org.jboss.weld.benchmark.core.BeanUnderTest;
 import org.jboss.weld.benchmark.core.DummyEvent;
 
-/**
- * @author Kirill Gaevskii
- */
-@ApplicationScoped
-public class DummyEventListener {
+public abstract class AbstractDispatcher implements BeanUnderTest {
 
-    public void dummyEventListener(@Observes DummyEvent dummyEvent) {
-        if (!dummyEvent.value()) {
-            throw new IllegalStateException();
-        }
+    private static final DummyEvent EVENT = new DummyEvent(true);
+
+    private final Event<DummyEvent> event;
+
+    public AbstractDispatcher(Event<DummyEvent> event) {
+        this.event = event;
+    }
+
+    public boolean getResult() {
+        event.fire(EVENT);
+        return true;
     }
 }

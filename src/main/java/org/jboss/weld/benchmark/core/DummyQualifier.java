@@ -14,28 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.weld.benchmark.core.event;
+package org.jboss.weld.benchmark.core;
 
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import org.jboss.weld.benchmark.core.BeanUnderTest;
-import org.jboss.weld.benchmark.core.DummyEvent;
+import javax.inject.Qualifier;
 
-/**
- * @author Kirill Gaevskii
- */
-public class EventDispatchingBean implements BeanUnderTest {
+@Retention(RetentionPolicy.RUNTIME)
+@Qualifier
+public @interface DummyQualifier {
 
-    static final DummyEvent EVENT = new DummyEvent(true);
-
-    @Inject
-    Event<DummyEvent> event;
-
-    @Override
-    public boolean getResult() {
-        event.fire(EVENT);
-        return true;
-    }
-
+    String value();
 }
