@@ -14,32 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.weld.benchmark.core;
+package org.jboss.weld.benchmark.core.event.beanManager;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Annotation;
 
-import javax.enterprise.util.AnnotationLiteral;
-import javax.inject.Qualifier;
+import javax.enterprise.inject.spi.BeanManager;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Qualifier
-public @interface DummyQualifier {
+import org.jboss.weld.benchmark.core.BeanUnderTest;
+import org.jboss.weld.benchmark.core.DummyEvent;
 
-    String value();
+public abstract class AbstractDispatcher implements BeanUnderTest {
 
-    @SuppressWarnings("all")
-    public static class Literal extends AnnotationLiteral<DummyQualifier> implements DummyQualifier {
+    private static final DummyEvent EVENT = new DummyEvent(true);
+    private final BeanManager manager;
+    private final Annotation qualifier;
 
-        private final String value;
+    AbstractDispatcher(BeanManager manager, Annotation qualifier) {
+        this.manager = manager;
+        this.qualifier = qualifier;
+    }
 
-        public Literal(String value) {
-            this.value = value;
-        }
-
-        @Override
-        public String value() {
-            return value;
-        }
+    public boolean getResult() {
+        manager.fireEvent(EVENT, qualifier);
+        return true;
     }
 }
