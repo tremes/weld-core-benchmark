@@ -23,9 +23,9 @@ import org.jboss.weld.benchmark.core.DummyEvent;
 
 public abstract class AbstractDispatcher implements BeanUnderTest {
 
-    private static final DummyEvent EVENT = new DummyEvent(true);
+    protected static final DummyEvent EVENT = new DummyEvent(true);
 
-    private final Event<DummyEvent> event;
+    protected final Event<DummyEvent> event;
 
     public AbstractDispatcher(Event<DummyEvent> event) {
         this.event = event;
