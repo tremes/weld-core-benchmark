@@ -3,8 +3,8 @@ Weld Core MicroBenchmarks
 
 To run the benchmark execute
 
-> mvn clean package
+> mvn clean package -PWeld
 
 To override Weld version
 
-> mvn clean package -Dweld.version=2.2.7-SNAPSHOT
+> mvn clean package -PWeld -Dweld.version=2.2.7-SNAPSHOT
