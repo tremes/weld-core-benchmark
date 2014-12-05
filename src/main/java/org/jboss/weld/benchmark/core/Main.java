@@ -16,6 +16,7 @@
  */
 package org.jboss.weld.benchmark.core;
 
+import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -35,6 +36,8 @@ public class Main {
                 .warmupIterations(ITERATIONS)
                 .measurementBatchSize(BATCH_SIZE)
                 .measurementIterations(ITERATIONS)
+                .resultFormat(ResultFormatType.CSV)
+                .result("weld-core-benchmark.csv")
                 .build();
         new Runner(opt).run();
     }
