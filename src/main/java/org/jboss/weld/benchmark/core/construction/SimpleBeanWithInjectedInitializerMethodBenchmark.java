@@ -24,19 +24,19 @@ import org.jboss.weld.benchmark.core.AbstractBenchmark;
 import org.jboss.weld.benchmark.core.BeanUnderTest;
 import org.jboss.weld.benchmark.core.SimpleDependentBean;
 import org.jboss.weld.benchmark.core.SimpleDependentBean2;
-import org.jboss.weld.benchmark.core.construction.SimpleBeanWithInjectedConstructorBenchmark.InjectingBeanWithConstructor;
+import org.jboss.weld.benchmark.core.construction.SimpleBeanWithInjectedInitializerMethodBenchmark.InjectingBeanWithInitializer;
 
 /**
  * @author Kirill Gaevskii
  */
-public class SimpleBeanWithInjectedConstructorBenchmark extends AbstractBenchmark<InjectingBeanWithConstructor> {
+public class SimpleBeanWithInjectedInitializerMethodBenchmark extends AbstractBenchmark<InjectingBeanWithInitializer> {
 
     @Override
-    protected Class<InjectingBeanWithConstructor> getBeanClass() {
-        return InjectingBeanWithConstructor.class;
+    protected Class<InjectingBeanWithInitializer> getBeanClass() {
+        return InjectingBeanWithInitializer.class;
     }
 
-    public static class InjectingBeanWithConstructor implements BeanUnderTest {
+    public static class InjectingBeanWithInitializer implements BeanUnderTest {
 
         @Inject
         private Instance<Injected> instance;
@@ -52,14 +52,13 @@ public class SimpleBeanWithInjectedConstructorBenchmark extends AbstractBenchmar
     @Dependent
     public static class Injected {
 
-        final SimpleDependentBean first;
-        final SimpleDependentBean2 second;
+        SimpleDependentBean first;
+        SimpleDependentBean2 second;
 
         @Inject
-        public Injected(SimpleDependentBean first, SimpleDependentBean2 second) {
+        public void initializer(SimpleDependentBean first, SimpleDependentBean2 second) {
             this.first = first;
             this.second = second;
         }
     }
-
 }
