@@ -29,6 +29,11 @@ public class Main {
     private static final int BATCH_SIZE = 1 << 15;
 
     public static void main(String[] args) throws RunnerException {
+
+        String containerName = System.getProperty("container.name", "unknown");
+        String containerVersion = System.getProperty("container.version", "unknown");
+
+
         Options opt = new OptionsBuilder().include("org.jboss.weld.benchmark.core")
                 .forks(FORKS)
                 .threads(1)
@@ -37,7 +42,7 @@ public class Main {
                 .measurementBatchSize(BATCH_SIZE)
                 .measurementIterations(ITERATIONS)
                 .resultFormat(ResultFormatType.CSV)
-                .result("weld-core-benchmark.csv")
+                .result(containerName + "-" + containerVersion + ".csv")
                 .build();
         new Runner(opt).run();
     }
