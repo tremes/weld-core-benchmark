@@ -7,11 +7,14 @@
     <name>weld-collections-benchmark</name>
 
     <properties>
-        <deltaspike.version>1.1.0</deltaspike.version>
-        <jmh.version>1.3.4</jmh.version>
-        <weld.version>2.2.6.Final</weld.version>
+        <!-- placeholders -->
         <container.name>default</container.name>
         <container.version>default</container.version>
+
+        <deltaspike.version>1.1.0</deltaspike.version>
+        <jmh.version>1.3.4</jmh.version>
+        <owb.version>1.2.7</owb.version>
+        <weld.version>2.2.6.Final</weld.version>
     </properties>
 
     <dependencies>
@@ -79,6 +82,35 @@
                     <groupId>org.jboss.weld.se</groupId>
                     <artifactId>weld-se-core</artifactId>
                     <version>${weld.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>OWB12</id>
+            <properties>
+                <container.name>owb</container.name>
+                <container.version>${owb.version}</container.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+                    <version>1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.openwebbeans</groupId>
+                    <artifactId>openwebbeans-spi</artifactId>
+                    <version>${owb.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.openwebbeans</groupId>
+                    <artifactId>openwebbeans-impl</artifactId>
+                    <version>${owb.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.deltaspike.cdictrl</groupId>
+                    <artifactId>deltaspike-cdictrl-owb</artifactId>
+                    <version>${deltaspike.version}</version>
                 </dependency>
             </dependencies>
         </profile>
