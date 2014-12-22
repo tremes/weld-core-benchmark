@@ -36,7 +36,7 @@ public class Main {
 
         Options opt = new OptionsBuilder().include("org.jboss.weld.benchmark.core")
                 .forks(FORKS)
-                .threads(1)
+                .threads(Runtime.getRuntime().availableProcessors())
                 .warmupBatchSize(BATCH_SIZE)
                 .warmupIterations(ITERATIONS)
                 .measurementBatchSize(BATCH_SIZE)
