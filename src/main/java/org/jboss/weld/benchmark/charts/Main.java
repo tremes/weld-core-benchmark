@@ -34,9 +34,17 @@ import java.util.regex.Pattern;
  */
 public class Main {
 
-    public static final String FILES_PATH = System.getProperty("user.dir");
+    private static String FILES_PATH;
+    public static final String SAVE_TO_PATH = System.getProperty("user.dir");
 
     public static void main(String... args) {
+        if (args.length < 2) {
+            System.err.println("It have to be two args: graphs and graphs path.");
+            return;
+        }
+
+        FILES_PATH = (args[1].equals("./")) ? System.getProperty("user.dir") : args[1];
+
         Map<String, Chart> chart = new HashMap<String, Chart>();
 
         String[] fileNames = args[0].split(",");
@@ -73,6 +81,6 @@ public class Main {
             }
         }
 
-        chart.forEach((name, ch) -> ch.saveImageTo(FILES_PATH));
+        chart.forEach((name, ch) -> ch.saveImageTo(SAVE_TO_PATH));
     }
 }

@@ -15,6 +15,7 @@
         <jmh.version>1.4.1</jmh.version>
         <owb.version>1.2.7</owb.version>
         <weld.version>2.2.6.Final</weld.version>
+        <graph.path>./</graph.path>
     </properties>
 
     <dependencies>
@@ -180,6 +181,7 @@
                                         <classpath />
                                         <argument>org.jboss.weld.benchmark.charts.Main</argument>
                                         <argument>${graph}</argument>
+                                        <argument>${graph.path}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
