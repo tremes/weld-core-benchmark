@@ -57,18 +57,17 @@ public class Main {
 
         for (File file : files) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                // During initialization skips first line
-                for (String line = br.readLine(); (line = br.readLine()) != null;) {
+                for (String line = null; (line = br.readLine()) != null;) {
                     // Example of string for parsing:
                     // "org.jboss.weld.benchmark.core.construction.SimpleConstructionBenchmark.run","thrpt",1,25,70.79778680435197,2.9911112235183994,"ops/s"
                     Pattern pattern = Pattern.compile("org.jboss.weld.benchmark.core.(.+)\\.(.+)Benchmark.*[0-9]+.*,([0-9]+\\.[0-9]+),[0-9]+\\.[0-9]+,\"ops/s\"");
                     Matcher matcher = pattern.matcher(line);
-                    matcher.find();
-
-                    if (!chart.containsKey(matcher.group(1))) {
-                        chart.put(matcher.group(1), new Chart(matcher.group(1), "", "ops/s"));
+                    if (matcher.find()) {
+                        if (!chart.containsKey(matcher.group(1))) {
+                            chart.put(matcher.group(1), new Chart(matcher.group(1), "", "ops/s"));
+                        }
+                        chart.get(matcher.group(1)).addValue(Double.parseDouble(matcher.group(3)), file.getName().replace(".csv", ""), matcher.group(2));
                     }
-                    chart.get(matcher.group(1)).addValue(Double.parseDouble(matcher.group(3)), file.getName().replace(".csv", ""), matcher.group(2));
                 }
             } catch (FileNotFoundException e) {
                 System.err.println("File " + FILES_PATH + File.separator + file.getName() + " was not found.");
