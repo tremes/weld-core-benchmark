@@ -16,6 +16,8 @@
  */
 package org.jboss.weld.benchmark.core;
 
+import java.io.File;
+
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -33,7 +35,6 @@ public class Main {
         String containerName = System.getProperty("container.name", "unknown");
         String containerVersion = System.getProperty("container.version", "unknown");
 
-
         Options opt = new OptionsBuilder().include("org.jboss.weld.benchmark.core")
                 .forks(FORKS)
                 .threads(Runtime.getRuntime().availableProcessors())
@@ -42,7 +43,7 @@ public class Main {
                 .measurementBatchSize(BATCH_SIZE)
                 .measurementIterations(ITERATIONS)
                 .resultFormat(ResultFormatType.CSV)
-                .result(containerName + "-" + containerVersion + ".csv")
+                .result("target" + File.separator + containerName + "-" + containerVersion + ".csv")
                 .build();
         new Runner(opt).run();
     }

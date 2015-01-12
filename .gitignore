@@ -8,5 +8,3 @@ release.properties
 .project
 .settings
 weld-core-benchmark.csv
-*.png
-*.csv

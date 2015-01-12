@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,27 +35,38 @@ import java.util.regex.Pattern;
  */
 public class Main {
 
-    private static String FILES_PATH;
-    public static final String SAVE_TO_PATH = System.getProperty("user.dir");
+    private static File FILES_PATH;
+    public static final String DEFAULT_PATH = System.getProperty("build.directory", System.getProperty("user.dir"));
 
     public static void main(String... args) {
-        if (args.length < 2) {
-            System.err.println("It have to be two args: graphs and graphs path.");
+        if (args.length < 1) {
+            System.err.println("Argument graphs can not be found.");
             return;
         }
 
-        FILES_PATH = (args[1].equals("./")) ? System.getProperty("user.dir") : args[1];
+        FILES_PATH = new File(args[0]);
+        String[] fileNames = null;
 
-        Map<String, Chart> chart = new HashMap<String, Chart>();
+        if (FILES_PATH.isDirectory()) {
+            fileNames = FILES_PATH.list(new FilenameFilter() {
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".csv");
+                }
+            });
+        } else {
+            fileNames = args[0].split(",");
+            FILES_PATH = new File(DEFAULT_PATH);
+        }
 
-        String[] fileNames = args[0].split(",");
         if (fileNames.length < 2) {
             System.err.println("It have to be at least two files for creating graphs.");
             return;
         }
+
         List<File> files = new ArrayList<File>();
         Arrays.stream(fileNames).forEach(f -> files.add(new File(FILES_PATH, f)));
 
+        Map<String, Chart> chart = new HashMap<String, Chart>();
         for (File file : files) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 for (String line = null; (line = br.readLine()) != null;) {
@@ -80,6 +92,6 @@ public class Main {
             }
         }
 
-        chart.forEach((name, ch) -> ch.saveImageTo(SAVE_TO_PATH));
+        chart.forEach((name, ch) -> ch.saveImageTo(DEFAULT_PATH));
     }
 }
