@@ -35,7 +35,9 @@ public class SingletonProducer {
     }
 
     public void disposer(@DummyQualifier("SingletonProducer") @Disposes SimpleBean bean) {
-        bean.doSomeStuffForDestruction();
+        if (!bean.doSomeStuffForDestruction()) {
+            throw new IllegalStateException();
+        }
     }
 
 }

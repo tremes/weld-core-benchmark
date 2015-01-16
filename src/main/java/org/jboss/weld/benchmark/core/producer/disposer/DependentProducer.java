@@ -35,6 +35,8 @@ public class DependentProducer {
     }
 
     public void destruction(@DummyQualifier("DependentProducer") @Disposes SimpleBean bean) {
-        bean.doSomeStuffForDestruction();
+        if (!bean.doSomeStuffForDestruction()) {
+            throw new IllegalStateException();
+        }
     }
 }

@@ -35,6 +35,8 @@ public class RequestScopedProducer {
     }
 
     public void disposer(@DummyQualifier("RequestScopedProducer") @Disposes SimpleBean bean) {
-        bean.doSomeStuffForDestruction();
+        if (!bean.doSomeStuffForDestruction()) {
+            throw new IllegalStateException();
+        }
     }
 }

@@ -34,7 +34,9 @@ public class ApplicationScopedProducer {
         return new SimpleBean();
     }
 
-    public  void dispose(@DummyQualifier("ApplicationScopedProducer") @Disposes SimpleBean bean) {
-        bean.doSomeStuffForDestruction();
+    public void dispose(@DummyQualifier("ApplicationScopedProducer") @Disposes SimpleBean bean) {
+        if (!bean.doSomeStuffForDestruction()) {
+            throw new IllegalStateException();
+        }
     }
 }
