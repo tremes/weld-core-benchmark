@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.weld.benchmark.core.pure;
+package org.jboss.weld.benchmark.core.baseline;
 
-import org.jboss.weld.benchmark.core.AbstractBenchmark;
+import org.jboss.weld.benchmark.core.BeanUnderTest;
 
 /**
  * @author Kirill Gaevskii
  */
-public class PureBeanBenchmark extends AbstractBenchmark<PureBean> {
+public class BaselineBean implements BeanUnderTest {
 
     @Override
-    protected Class<PureBean> getBeanClass() {
-        return PureBean.class;
+    public boolean getResult() {
+        return true;
     }
 }
