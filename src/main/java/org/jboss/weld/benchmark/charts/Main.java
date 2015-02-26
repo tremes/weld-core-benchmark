@@ -72,13 +72,13 @@ public class Main {
                 for (String line = null; (line = br.readLine()) != null;) {
                     // Example of string for parsing:
                     // "org.jboss.weld.benchmark.core.construction.SimpleConstructionBenchmark.run","thrpt",1,25,70.79778680435197,2.9911112235183994,"ops/s"
-                    Pattern pattern = Pattern.compile("org.jboss.weld.benchmark.core.(.+)\\.(.+)Benchmark.*[0-9]+.*,([0-9]+\\.[0-9]+),[0-9]+\\.[0-9]+,\"ops/s\"");
+                    Pattern pattern = Pattern.compile("org.jboss.weld.benchmark.core.(.+)\\.(.+)Benchmark.*[0-9]+.*,\"*([0-9]+[\\.,][0-9]+)\"*,\"*[0-9]+[\\.,][0-9]+\"*,\"ops/s\"");
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         if (!chart.containsKey(matcher.group(1))) {
                             chart.put(matcher.group(1), new Chart(matcher.group(1), "", "ops/s"));
                         }
-                        chart.get(matcher.group(1)).addValue(Double.parseDouble(matcher.group(3)), file.getName().replace(".csv", ""), matcher.group(2));
+                        chart.get(matcher.group(1)).addValue(Double.parseDouble(matcher.group(3).replace(',', '.')), file.getName().replace(".csv", ""), matcher.group(2));
                     }
                 }
             } catch (FileNotFoundException e) {
