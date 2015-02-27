@@ -34,6 +34,7 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
 /**
+ * Represents chart with one group of bars
  * @author Kirill Gaevskii
  */
 public class Chart {
@@ -56,6 +57,12 @@ public class Chart {
         lineChartDataset = new DefaultCategoryDataset();
     }
 
+    /**
+     * Saving a chart to hard disk as png image
+     *
+     * @param path absolute path
+     * @return true if no errors occurred
+     */
     public Boolean saveImageTo(String path) {
         try {
             JFreeChart lineChartObject = ChartFactory.createBarChart(NAME, X_AXIS_NAME, Y_AXIS_NAME, lineChartDataset, PlotOrientation.VERTICAL, true, true, false);
@@ -84,6 +91,13 @@ public class Chart {
         return true;
     }
 
+    /**
+     * Adds or updates a value in the chart
+     *
+     * @param value the value
+     * @param rowKey the row key (have to be not null)
+     * @param columnKey the column key (have to be not null)
+     */
     public void addValue(double value, String rowKey, String columnKey) {
         lineChartDataset.setValue(value, rowKey, columnKey);
     }

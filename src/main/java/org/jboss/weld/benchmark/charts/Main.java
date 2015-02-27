@@ -31,6 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Generate an charts for benchmarks from csv files
+ *
  * @author Kirill Gaevskii
  */
 public class Main {
@@ -70,14 +72,21 @@ public class Main {
         for (File file : files) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 for (String line = null; (line = br.readLine()) != null;) {
-                    // Example of string for parsing:
+                    // Examples of string for parsing:
                     // "org.jboss.weld.benchmark.core.construction.SimpleConstructionBenchmark.run","thrpt",1,25,70.79778680435197,2.9911112235183994,"ops/s"
+                    // "org.jboss.weld.benchmark.core.construction.SimpleConstructionBenchmark.run","thrpt","1","25","70,79778680435197","2,9911112235183994","ops/s"
+                    // after parsing we will have 3 groups:
+                    // (1) name of a package of a benchmark without org.jboss.weld.benchmark.core, ie in example it will be "construction"
+                    // (2) name of a benchmark without Benchmark, ie in example it will be "SimpleConstruction"
+                    // (3) result of a benchmark in string above it is "70.79778680435197"
                     Pattern pattern = Pattern.compile("org.jboss.weld.benchmark.core.(.+)\\.(.+)Benchmark.*[0-9]+.*,\"*([0-9]+[\\.,][0-9]+)\"*,\"*[0-9]+[\\.,][0-9]+\"*,\"ops/s\"");
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
+                        // create new chart with benchmark package name (see above) if not exists
                         if (!chart.containsKey(matcher.group(1))) {
                             chart.put(matcher.group(1), new Chart(matcher.group(1), "", "ops/s"));
                         }
+                        // add value to chart
                         chart.get(matcher.group(1)).addValue(Double.parseDouble(matcher.group(3).replace(',', '.')), file.getName().replace(".csv", ""), matcher.group(2));
                     }
                 }
